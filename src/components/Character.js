@@ -10,7 +10,6 @@ class Character extends React.Component {
 
   render() {
     return <p>{this.props.name}</p>;
-    // Change code above this line
   }
 }
 
