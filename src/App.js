@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import axios from 'axios'
+import axios from 'axios';
 import Character from './components/Character';
 
 
@@ -13,42 +13,28 @@ const App = () => {
   // side effect in a component, you want to think about which state and/or props it should
   // sync up with, if any.
 
-const [characters, setCharacters] = useState(null);
-const [currentCharacter, setCurrentCharacter] = useState(null);
-const [error, setError] = useState(null);
+const [chars, setCharDetails] = useState([]);
 
-const openDetails = (id) =>
-{
-    const character = characters.filter(item => item.id === id);
-    setCurrentCharacter(character);
-};
-
-const closeDetails = () =>
-{
-    setCurrentCharacter(null);
-};
 
 
 useEffect(() => {
-  axios.get('https://swapi.dev/api/people')
-    .then(res =>{
+  axios
+    .get(`https://swapi.dev/api/people`)
+    .then(res => {
       console.log(res.data);
-      // setDetails(res.data)
-    }).catch(err =>{
-      console.error(err);
+      setCharDetails(res.data);
     })
-}, []
-)
-
-// const SWCharacter = characters.map() 
+    .catch(err => console.log(err));
+}, []);
 
   return (
     <div className="App">
       <h1 className="Header">SW Characters</h1>
-      {/* {characters[0].name} */}
-      {console.log(characters[0])}
+      {chars.map(char => {
+        return <Character name={char.name} />;
+      })}
     </div>
   );
-}
+};
 
 export default App
